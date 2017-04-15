@@ -1,0 +1,15 @@
+{
+  "/smartsheet/*": {
+    "target": "https://api.smartsheet.com/2.0",
+    "changeOrigin": true,
+    "secure": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/smartsheet": ""
+    },
+    "headers": {
+      "Authorization": "Bearer 1pd7mzoww2jbzk4xrlma64adid",
+      "Content-type": "application/json"
+    }
+  }
+}
