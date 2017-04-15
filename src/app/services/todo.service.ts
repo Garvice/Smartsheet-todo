@@ -7,11 +7,9 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/throw';
 import {Http, Response} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {SmartsheetConfig} from '../../smartsheet.config';
 
-const SHEET_ID = 1127639806175108;
-const TODO_SHEET_URL = `/smartsheet/sheets/${SHEET_ID}`;
-const TASK_NAME_COLUMN_ID = 6908186209871748;
-const DONE_COLUMN_ID = 5782286303029124;
+const SHEET_URL = `${SmartsheetConfig.smartsheetUrl}/sheet/${SmartsheetConfig.sheetId}`;
 
 @Injectable()
 export class TodoService {
@@ -19,7 +17,7 @@ export class TodoService {
 
     constructor(private http: Http) {
         this.todos = new BehaviorSubject(null);
-        this.http.get(`${TODO_SHEET_URL}`)
+        this.http.get(`${SHEET_URL}`)
             .map(this.extractData)
             .map(this.fromJson)
             .catch((res: Response) => this.handleError(res))
@@ -37,7 +35,7 @@ export class TodoService {
     deleteTodos(todoIds: Array<number>) {
         const todosToDelete = todoIds.join();
 
-        this.http.delete(`${TODO_SHEET_URL}/rows?ids=${todosToDelete}`)
+        this.http.delete(`${SHEET_URL}/rows?ids=${todosToDelete}`)
             .map(this.extractData)
             .catch((res: Response) => this.handleError(res))
             .subscribe(deletedTodos => {
@@ -51,7 +49,7 @@ export class TodoService {
 
     addTodo(newTodoTitle: string) {
         const newTodoJson = this.toNewTodoJson(newTodoTitle);
-        this.http.post(`${TODO_SHEET_URL}/rows`, JSON.stringify(newTodoJson))
+        this.http.post(`${SHEET_URL}/rows`, JSON.stringify(newTodoJson))
             .map(this.extractData)
             .map(this.fromJson)
             .catch((res: Response) => this.handleError(res))
@@ -66,7 +64,7 @@ export class TodoService {
     }
 
     updateTodo(todoToUpdate: Todo): Observable<Array<Todo>> {
-        this.http.put(`${TODO_SHEET_URL}/rows`, this.toUpdateTodoJson(todoToUpdate))
+        this.http.put(`${SHEET_URL}/rows`, this.toUpdateTodoJson(todoToUpdate))
             .map(this.extractData)
             .map(this.fromJson)
             .catch((res: Response) => this.handleError(res))
@@ -107,10 +105,10 @@ export class TodoService {
             const todo = new Todo(row.id, row.rowNumber);
             row.cells.forEach(cell => {
                 switch (cell.columnId) {
-                    case TASK_NAME_COLUMN_ID:
+                    case SmartsheetConfig.taskNameColumnId:
                         todo.name = cell.value;
                         break;
-                    case DONE_COLUMN_ID:
+                    case SmartsheetConfig.doneColumnId:
                         todo.done = cell.value ? cell.value : false;
                 }
             });
@@ -124,7 +122,7 @@ export class TodoService {
         return {
             toBottom: true,
             cells: [
-                {columnId:  TASK_NAME_COLUMN_ID, value: newTodoTitle}
+                {columnId:  SmartsheetConfig.taskNameColumnId, value: newTodoTitle}
             ]
         };
     }
@@ -134,11 +132,11 @@ export class TodoService {
             id: todo.rowId,
             cells: [
                 {
-                    columnId: TASK_NAME_COLUMN_ID,
+                    columnId: SmartsheetConfig.taskNameColumnId,
                     value: todo.name
                 },
                 {
-                    columnId: DONE_COLUMN_ID,
+                    columnId: SmartsheetConfig.doneColumnId,
                     value: todo.done
                 }
             ]

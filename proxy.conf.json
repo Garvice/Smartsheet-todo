@@ -8,7 +8,7 @@
       "^/smartsheet": ""
     },
     "headers": {
-      "Authorization": "Bearer 1pd7mzoww2jbzk4xrlma64adid",
+      "Authorization": "Bearer AccessToken",
       "Content-type": "application/json"
     }
   }
