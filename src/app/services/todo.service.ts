@@ -9,7 +9,7 @@ import {Http, Response} from '@angular/http';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {SmartsheetConfig} from '../../smartsheet.config';
 
-const SHEET_URL = `${SmartsheetConfig.smartsheetUrl}/sheet/${SmartsheetConfig.sheetId}`;
+const SHEET_URL = `${SmartsheetConfig.smartsheetUrl}/sheets/${SmartsheetConfig.sheetId}`;
 
 @Injectable()
 export class TodoService {
