@@ -21,7 +21,7 @@ You will need to generate an API Token, create a Task-List type Sheet, and obtai
 
 1. Obtain an Access-Token and update `proxy.conf.json` to include your Access Token.
 2. Create a new sheet of type Task-List and update `src/smartsheet.config.ts` with the SheetId
-3. Run the application using `$ npm start`. Look inside of the Browser's developer console to find the response from requesting the Sheet
+3. Run the application using `$ npm start`. Browse to `http://localhost:4200` and look sinside the Browser's developer console to find the response from requesting the Sheet
 and obtain the ColumnIds for 'Task Name' and 'Done'. Add these Ids to `src/smartsheet.config.ts` in the appropriate location.
 
 Once this is completed you should be able to run the application using `$ npm start` and browse to it at `http://localhost:4200`
